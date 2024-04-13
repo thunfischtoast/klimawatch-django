@@ -1,0 +1,60 @@
+{% load static %}
+
+<div>
+    <link rel=stylesheet href={% static 'klimawatch_app/youdrawit.css' %}>
+    <script src={% static 'klimawatch_app/d3.v5.min.js' %}></script>
+    <script src={% static 'klimawatch_app/youdrawit.js' %}></script>
+    <script>
+        var questions = [];
+        var question = {};
+
+        var globals = {
+            default: "de",
+            // header: "Dieses Template zeigt Beispiel Fragen mit einer Zahl, einer Zahlensequenz und Kategorien/Text (multiple choice) als Antworten",
+            // subHeader: "Versuchen Sie die richtige Antwort zu erraten und sehen Sie selbst, wie gut Sie sich auskennen!",
+            // drawAreaTitle: "Ihre\nEinschätzung",
+            // drawLine: "Zeichnen Sie von hier\nden Verlauf zu Ende",
+            // drawBar: "Ziehen Sie den Balken\nauf die entsprechende Höhe",
+            // resultButtonText: "Zeig mir die Lösung!",
+            // resultButtonTooltip: "Zeichnen Sie Ihre Einschätzung. Der Klick verrät, ob sie stimmt.",
+            // scoreButtonText: "Zeig mir, wie gut ich war!",
+            // scoreButtonTooltip: "Klicken Sie hier, um Ihr Gesamtergebnis zu sehen",
+            // scoreTitle: "Ihr Ergebnis:",
+            // scoreHtml: "<b>Ausgezeichnet!!</b>", 
+            // or scoreHtml: [{lower: 0, upper: 50, html: "<b>Das war wohl nichts!!</b>"}, {lower: 50, upper: 101, html: "<b>Ausgezeichnet!!</b>"}],
+        };
+
+        // ----- for additional questions, copy FROM here
+        question = {
+            // heading: "Wie sollte sich der CO2-Ausstoß entwickeln?",
+            subHeading: "Wie sollte sich der CO2-Ausstoß entwickeln?",
+            data: [
+                { "1998": 32000 },
+                { "2002": 22000 },
+                { "2006": 18000 },
+                { "2010": 18500 },
+                { "2014": 25000 },
+                { "2018": 22400 },
+            ],
+            // resultHtml: "Überraschend, nicht wahr?",
+            // unit: "Pts",
+            precision: 0,
+            lastPointShownAt: "2002",
+            // yAxisMin: ,
+            yAxisMax: 50000,
+        };
+        questions.push(question);
+        // ----- for additional questions, copy TO here   
+
+        var myChart = youdrawit
+            .chart()
+            .globals(globals)
+            .questions(questions);
+
+        console.log(d3.select("#youdrawitroot"));
+        d3.select("#youdrawitroot")
+            .append("div")
+            .attr("class", "chart")
+            .call(myChart);
+    </script>
+</div>
