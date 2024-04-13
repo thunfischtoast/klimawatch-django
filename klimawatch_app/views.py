@@ -3,7 +3,7 @@ from django.template import loader
 import markdown
 
 
-from .models import Kommune, Article, MarkdownContent
+from .models import Kommune, MarkdownContent
 
 
 def index(request):
@@ -29,7 +29,6 @@ def kommune_detail(request, municipality_slug):
 
     template = loader.get_template("kommune_detail.html")
     kommune = Kommune.objects.get(slug=municipality_slug)
-    # article = Article.objects.filter(kommune=kommune).first()
     markdown_content = MarkdownContent.objects.filter(kommune=kommune).first()
     markdown_content.content = md.convert(markdown_content.content)
 
