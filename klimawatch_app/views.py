@@ -1,7 +1,9 @@
 from django.http import HttpResponse
 from django.template import loader
+import markdown
 
-from .models import Kommune, Article
+
+from .models import Kommune, Article, MarkdownContent
 
 
 def index(request):
@@ -23,11 +25,17 @@ def anleitung(request):
 
 
 def kommune_detail(request, municipality_slug):
+    md = markdown.Markdown(extensions=["fenced_code"])
+
     template = loader.get_template("kommune_detail.html")
     kommune = Kommune.objects.get(slug=municipality_slug)
-    article = Article.objects.filter(kommune=kommune).first()
+    # article = Article.objects.filter(kommune=kommune).first()
+    markdown_content = MarkdownContent.objects.filter(kommune=kommune).first()
+    markdown_content.content = md.convert(markdown_content.content)
+
     return HttpResponse(
         template.render(
-            request=request, context={"kommune": kommune, "article": article}
+            request=request,
+            context={"kommune": kommune, "markdown_content": markdown_content},
         )
     )

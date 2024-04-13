@@ -30,3 +30,16 @@ class ArticleContent(AbstractDocument):
 class Article(models.Model):
     body = models.OneToOneField(ArticleContent, on_delete=models.CASCADE)
     kommune = models.ForeignKey(Kommune, on_delete=models.CASCADE)
+
+
+class MarkdownContent(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    
+    kommune = models.ForeignKey(Kommune, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "Markdown content"
+
+    def __str__(self):
+        return self.title
