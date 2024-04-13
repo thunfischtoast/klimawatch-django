@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 
-from .models import Kommune
+from .models import Kommune, Article
 
 
 def index(request):
@@ -25,4 +25,9 @@ def anleitung(request):
 def kommune_detail(request, municipality_slug):
     template = loader.get_template("kommune_detail.html")
     kommune = Kommune.objects.get(slug=municipality_slug)
-    return HttpResponse(template.render(request=request, context={"kommune": kommune}))
+    article = Article.objects.filter(kommune=kommune).first()
+    return HttpResponse(
+        template.render(
+            request=request, context={"kommune": kommune, "article": article}
+        )
+    )

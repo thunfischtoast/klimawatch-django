@@ -1,5 +1,8 @@
 from django.db import models
 
+from prose.fields import RichTextField
+from prose.models import AbstractDocument
+
 
 class Kommune(models.Model):
     # Name of the municipality
@@ -18,3 +21,12 @@ class Kommune(models.Model):
     longitude = models.FloatField(
         null=True
     )  # Longitude, in degrees, between -180 and 180. North of the equator is positive.
+
+
+class ArticleContent(AbstractDocument):
+    pass
+
+
+class Article(models.Model):
+    body = models.OneToOneField(ArticleContent, on_delete=models.CASCADE)
+    kommune = models.ForeignKey(Kommune, on_delete=models.CASCADE)
