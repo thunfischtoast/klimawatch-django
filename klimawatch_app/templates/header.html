@@ -1,0 +1,27 @@
+{% load static %}
+
+<header class=header id=header>
+    <div class=header__title>
+        <a href={% url 'index' %} class=header__title__link alt={% url 'index' %}>
+            <img src={% static 'klimawatch_app/img/klimawatch_gruen.png' %} class=header__title__link--logo
+                alt=Klimawatch>
+            Klimawatch
+        </a>
+    </div>
+    <nav class=menu>
+        <details class=menu__toggle>
+            <summary class=menu__toggle__title>Menu</summary>
+            <div class=menu__items role=menu>
+                <a href=/ class=menu__items__item alt=Klimawatch role=menuitem>
+                    Klimawatch
+                </a>
+                <a href=/paris-limits/ class=menu__items__item alt="Was sind die Paris-Limits?" role=menuitem>
+                    Was sind die Paris-Limits?
+                </a>
+                <a href=/anleitung/ class=menu__items__item alt="Wie füge ich meine Kommune hinzu?" role=menuitem>
+                    Wie füge ich meine Kommune hinzu?
+                </a>
+            </div>
+        </details>
+    </nav>
+</header>

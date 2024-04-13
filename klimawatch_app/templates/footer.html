@@ -1,0 +1,84 @@
+{% load static %}
+
+<footer class=footer id=footer>
+    <section class=social-links id=socialLinks>
+        <a href=# class=social-links__link alt=codepen target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fab fa-codepen"></i>
+            </span>
+        </a>
+        <a href=# class=social-links__link alt=facebook target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fab fa-facebook"></i>
+            </span>
+        </a>
+        <a href=# class=social-links__link alt=github target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fab fa-github"></i>
+            </span>
+        </a>
+        <a href=# class=social-links__link alt=gitlab target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fab fa-gitlab"></i>
+            </span>
+        </a>
+        <a href=# class=social-links__link alt=instagram target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fab fa-instagram"></i>
+            </span>
+        </a>
+        <a href=# class=social-links__link alt=pinterest target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fab fa-pinterest"></i>
+            </span>
+        </a>
+        <a href=# class=social-links__link alt=rss target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fas fa-rss"></i>
+            </span>
+        </a>
+        <a href=# class=social-links__link alt=twitter target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fab fa-twitter"></i>
+            </span>
+        </a>
+        <a href=# class=social-links__link alt=youtube target=_blank aria-label=# rel="noopener noreferrer">
+            <span class=social-links__link__icon>
+                <i class="fab fa-youtube"></i>
+            </span>
+        </a>
+    </section>
+    <hr>
+    <section class=contact-info id=contactInfo>
+        <address class=contact-info__info>
+            <p class=contact-info__info__item>
+                <span><i class="far fa-envelope"></i></span>
+                <a href=mailto:ed.rofedoc@retsneum class=contact-info__info__item__link alt=Email>
+                    ed.rofedoc@retsneum
+                </a>
+            </p>
+        </address>
+    </section>
+    <hr>
+    <div class=footer__partners>
+        <div class=footer__partners__intro>Ein Projekt von:</div>
+        <a class=footer__partners__link href=https://codefor.de/ target=_blank rel=noopener>
+            <img class=footer__partners__logo src={% static 'klimawatch_app/img/CFG_Logo.svg' %} alt="Logo Code for Germany">
+        </a>
+        <a class=footer__partners__link href=https://okfn.de/ target=_blank rel=noopener>
+            <img class=footer__partners__logo src={% static 'klimawatch_app/img/OKF_Logo.svg' %}
+                alt="Logo Open Knowledge Foundation Deutschland e.V.">
+        </a>
+    </div>
+    <hr>
+    <div class=footer__copy>
+        Klimawatch ist freie Software und lizenziert unter der Apache License Version 2.0 .<br><a
+            href=https://github.com/codeformuenster/klimawatch />Hier lang zum Quelltext.</a>
+    </div>
+    <section class=footer__agreement>
+        <a href=https://codeformuenster.org/impressum/#impressum>Impressum</a> & <a
+            href=https://codeformuenster.org/impressum/#datenschutz>Datenschutzerklärung</a>
+    </section>
+    <script defer src={% static 'klimawatch_app/bundle.min.js' %}></script>
+    <script>window.location.hostname === "klimawatch.de" && (function (e, b, f, c, a, d) { b[c] = b[c] || function () { (b[c].q = b[c].q || []).push(arguments) }, a = e.createElement('script'), d = e.getElementsByTagName('script')[0], a.async = 1, a.src = f, a.id = 'fathom-script', d.parentNode.insertBefore(a, d) }(document, window, '//ct.codeformuenster.org/t.js', 'fathom'), fathom('set', 'siteId', 'QPHYK'), fathom('trackPageview'))</script>
+</footer>
