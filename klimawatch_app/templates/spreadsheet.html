@@ -1,0 +1,80 @@
+{% load static %}
+
+<!doctype html>
+<html lang=de>
+
+{% include 'head.html' %}
+
+<head>
+    <title>Spreadsheet</title>
+    <script src={% static 'klimawatch_app/jspreadsheet/index.js' %}></script>
+    <script src={% static 'klimawatch_app/jsuites/jsuites.js' %}></script>
+    <link rel="stylesheet" href={% static 'klimawatch_app/jsuites/jsuites.css' %} type="text/css" />
+    <link rel="stylesheet" href={% static 'klimawatch_app/jspreadsheet/jspreadsheet.css' %} type="text/css" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+
+<body>
+    {% include 'header.html' %}
+    <main class="main">
+        <div style="height: 92px;"></div>
+        <h2>Emissionsdaten für {{ kommune.name }} </h2>
+        <div id="spreadsheet"></div>
+        <button id="add-row-button">Add row</button>
+        <button id="remove-row-button">Remove row</button>
+        <button id="save-button">Save</button>
+    </main>
+
+    {% include 'footer.html' %}
+
+    <script>
+        // get data from context
+        let _data = '{{ data }}';
+
+        // parse unicode character &#x27;
+        _data = _data.replace(/&#x27;/g, "\"");
+
+        // parse to json
+        _data = JSON.parse(_data);
+
+        let spreadsheet = jspreadsheet(document.getElementById('spreadsheet'), {
+            data: _data,
+            columns: [
+                { type: 'numeric', title: 'Year', width: 120 },
+                { type: 'text', title: 'Category', width: 120 },
+                { type: 'text', title: 'type', width: 120 },
+                { type: 'numeric', title: 'co2', width: 120 },
+                { type: 'note', title: 'type', width: 120 },
+            ]
+        });
+
+        document.getElementById('add-row-button').addEventListener('click', function () {
+            spreadsheet.insertRow();
+        });
+
+        document.getElementById('remove-row-button').addEventListener('click', function () {
+            spreadsheet.deleteRow();
+        });
+
+        // save data to server
+        document.getElementById('save-button').addEventListener('click', function () {
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let newData = spreadsheet.getData(); // get new data from spreadsheet
+
+            fetch('/api/emission_data/{{ kommune.slug }}/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': token
+                },
+                body: JSON.stringify(newData)
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data.status);
+                });
+        });
+
+    </script>
+</body>
+
+</html>
