@@ -44,17 +44,18 @@ def kommune_detail(request, municipality_slug):
         # print(data)
         years = [int(timepoint[0]) for timepoint in data]
         values = [float(timepoint[3]) for timepoint in data]
-        arr = np.array([years, values])
     else:
-        arr = np.array([])
+        years = [2000, 2010, 2020]
+        values = [1000, 1500, 700]
 
+    arr = np.array([years, values])
     # remove all years after the current year
     currentyear = datetime.datetime.now().year
     minyear = arr[0].min() if arr.size > 0 else 0
     # round up to next 5 year interval
     minyear = int(minyear + 5 - minyear % 5)
     arr = arr[:, arr[0] <= currentyear]
-    
+
     # add 2035 with value 0
     arr = np.append(arr, [[2035, 2050], [0, 0]], axis=1)
 
