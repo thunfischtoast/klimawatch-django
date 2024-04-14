@@ -1,3 +1,4 @@
+import datetime
 import json
 
 import markdown
@@ -5,6 +6,8 @@ from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
+import numpy as np
+from scipy import interpolate
 
 from .models import EmissionData, Kommune, MarkdownContent
 
@@ -35,16 +38,50 @@ def kommune_detail(request, municipality_slug):
     markdown_content = MarkdownContent.objects.filter(kommune=kommune).first()
     markdown_content.content = md.convert(markdown_content.content)
 
+    emission_data = EmissionData.objects.filter(kommune=kommune).first()
+    if emission_data:
+        data = emission_data.emissions
+        # print(data)
+        years = [int(timepoint[0]) for timepoint in data]
+        values = [float(timepoint[3]) for timepoint in data]
+        arr = np.array([years, values])
+    else:
+        arr = np.array([])
+
+    # remove all years after the current year
+    currentyear = datetime.datetime.now().year
+    minyear = arr[0].min() if arr.size > 0 else 0
+    # round up to next 5 year interval
+    minyear = int(minyear + 5 - minyear % 5)
+    arr = arr[:, arr[0] <= currentyear]
+    
+    # add 2035 with value 0
+    arr = np.append(arr, [[2035, 2050], [0, 0]], axis=1)
+
+    # interpolate to 5 year intervals, until 2050
+    x = arr[0]
+    y = arr[1]
+    f = interpolate.interp1d(x, y, kind="linear")
+    xnew = np.arange(minyear, 2051, 5)
+    ynew = f(xnew)
+    data = list(zip(xnew, ynew))
+    data = [{str(timepoint[0]): timepoint[1]} for timepoint in data]
+    lastshownyear = xnew[xnew <= currentyear][-1]
+
     rendered_content = template.render(
         request=request,
-        context={"kommune": kommune, "markdown_content": markdown_content},
+        context={
+            "kommune": kommune,
+            "markdown_content": markdown_content,
+            "emissions": data,
+            "lastshownyear": lastshownyear,
+        },
     )
 
     if "{{ youdrawit }}" in markdown_content.content:
         youdrawit_template = loader.get_template("youdrawit.html")
-        youdrawit_content = (
-            f"<div id=youdrawitroot>{youdrawit_template.render(request=request)}</div>"
-        )
+        context = {"emissions": data, "lastshownyear": lastshownyear}
+        youdrawit_content = f"<div id=youdrawitroot>{youdrawit_template.render(request=request, context=context)}</div>"
         rendered_content = rendered_content.replace(
             "{{ youdrawit }}", youdrawit_content
         )
@@ -63,7 +100,9 @@ def spreadsheet(request, municipality_slug):
     else:
         data = []
 
-    return HttpResponse(template.render(request=request, context={"kommune": kommune, "data": data}))
+    return HttpResponse(
+        template.render(request=request, context={"kommune": kommune, "data": data})
+    )
 
 
 @csrf_exempt

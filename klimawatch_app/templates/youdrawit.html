@@ -4,7 +4,7 @@
     <link rel=stylesheet href={% static 'klimawatch_app/youdrawit.css' %}>
     <script src={% static 'klimawatch_app/d3.v5.min.js' %}></script>
     <script src={% static 'klimawatch_app/youdrawit.js' %}></script>
-    <script>
+    <script data-emissions="{{ emissions }}", data-lastshownyear="{{ lastshownyear }}">
         var questions = [];
         var question = {};
 
@@ -24,24 +24,35 @@
             // or scoreHtml: [{lower: 0, upper: 50, html: "<b>Das war wohl nichts!!</b>"}, {lower: 50, upper: 101, html: "<b>Ausgezeichnet!!</b>"}],
         };
 
+        const data = document.currentScript.dataset;
+        let emissions = data.emissions;
+        emissions = emissions.replace(/'/g, '"');
+        emissions = JSON.parse(emissions);
+
+        let lastshownyear = data.lastshownyear;
+        console.log(lastshownyear);
+
+        // determine max value
+        let maxValue = 0;
+        for (let i = 0; i < emissions.length; i++) {
+            const year = Object.keys(emissions[i])[0];
+            const value = emissions[i][year];
+            if (value > maxValue) {
+                maxValue = value;
+            }
+        }
+
         // ----- for additional questions, copy FROM here
         question = {
             // heading: "Wie sollte sich der CO2-Ausstoß entwickeln?",
             subHeading: "Wie sollte sich der CO2-Ausstoß entwickeln?",
-            data: [
-                { "1998": 32000 },
-                { "2002": 22000 },
-                { "2006": 18000 },
-                { "2010": 18500 },
-                { "2014": 25000 },
-                { "2018": 22400 },
-            ],
+            data: emissions,
             // resultHtml: "Überraschend, nicht wahr?",
             // unit: "Pts",
             precision: 0,
-            lastPointShownAt: "2002",
+            lastPointShownAt: lastshownyear,
             // yAxisMin: ,
-            yAxisMax: 50000,
+            yAxisMax: maxValue * 1.1,
         };
         questions.push(question);
         // ----- for additional questions, copy TO here   

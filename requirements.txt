@@ -2,3 +2,5 @@ django
 markdown
 gunicorn
 whitenoise
+numpy
+scipy
