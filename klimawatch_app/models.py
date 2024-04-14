@@ -38,7 +38,7 @@ class MarkdownContent(models.Model):
 
 class EmissionData(models.Model):
     # The municipality this data is about
-    kommune = models.ForeignKey(Kommune, on_delete=models.CASCADE)
+    kommune = models.OneToOneField(Kommune, on_delete=models.CASCADE)
 
     # the emission data, in JSON format
     emissions = models.JSONField()

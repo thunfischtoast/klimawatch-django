@@ -111,8 +111,8 @@ def emission_data(request, municipality_slug):
     if request.method == "POST":
         data = json.loads(request.body)  # load json data from request
         kommune = Kommune.objects.get(slug=municipality_slug)
-        EmissionData.objects.update_or_create(
-            emissions=data, kommune=kommune
+        emission_data, created = EmissionData.objects.update_or_create(
+            kommune=kommune, defaults={"emissions": data}
         )  # update or create data in model
         return JsonResponse({"status": "success"}, status=200)
     else:
