@@ -16,10 +16,10 @@
                 <h3 class=klimawatch__hero__subtitle>Wie siehts aus mit Klimaschutz in meiner Kommune?</h3>
                 <div class=kommunen__list>
                     {% for kommune in kommunen_list %}
-                    <a class=kommunen__list__kommune href="/kommunen/{{ kommune.slug }}">{{ kommune.name }}</a>
+                    <a class=kommunen__list__kommune href="kommunen/{{ kommune.slug }}">{{ kommune.name }}</a>
                     {% endfor %}
                 </div>
-                <a class=missing__kommune href=/anleitung>Meine Kommune fehlt?!</a>
+                <a class=missing__kommune href={% url 'anleitung' %}>Meine Kommune fehlt?!</a>
             </div>
         </div>
     </main>

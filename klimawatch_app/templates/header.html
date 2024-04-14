@@ -12,13 +12,13 @@
         <details class=menu__toggle>
             <summary class=menu__toggle__title>Menu</summary>
             <div class=menu__items role=menu>
-                <a href=/ class=menu__items__item alt=Klimawatch role=menuitem>
+                <a href={% url 'index' %} class=menu__items__item alt=Klimawatch role=menuitem>
                     Klimawatch
                 </a>
-                <a href=/paris-limits/ class=menu__items__item alt="Was sind die Paris-Limits?" role=menuitem>
+                <a href={% url 'paris-limits' %} class=menu__items__item alt="Was sind die Paris-Limits?" role=menuitem>
                     Was sind die Paris-Limits?
                 </a>
-                <a href=/anleitung/ class=menu__items__item alt="Wie füge ich meine Kommune hinzu?" role=menuitem>
+                <a href={% url 'anleitung' %} class=menu__items__item alt="Wie füge ich meine Kommune hinzu?" role=menuitem>
                     Wie füge ich meine Kommune hinzu?
                 </a>
             </div>

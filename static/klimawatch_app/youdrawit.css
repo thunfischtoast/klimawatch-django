@@ -1132,7 +1132,6 @@ footer .foot .logo {
 }
 */
 body {
-    /*background: url(../images/landtagswahl-bg.jpg) fixed;*/
     background-size: cover;
 }
 
@@ -1148,7 +1147,6 @@ body {
 
 .category {
     overflow: hidden;
-    background: url(../images/wahlkreuz.png) no-repeat 60% center;
     background-size: auto 80%
 }
 
