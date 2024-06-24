@@ -48,3 +48,45 @@ class EmissionData(models.Model):
 
     def __str__(self):
         return f"Emission data for {self.kommune.name} ({self.kommune.slug}) - ID: {self.id}"
+
+
+class ActionSource(models.Model):
+    # Name of the source
+    name = models.CharField(max_length=500)
+
+    # URL of the source
+    url = models.URLField(null=True)
+
+    def __str__(self):
+        return f"{self.name} - ID: {self.id}"
+
+
+class ActionField(models.Model):
+    # Name of the field
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.name} - ID: {self.id}"
+
+
+class Action(models.Model):
+    # The municipality this data is about
+    kommune = models.ForeignKey(Kommune, on_delete=models.CASCADE)
+
+    # The source of the action
+    source = models.ForeignKey(ActionSource, on_delete=models.CASCADE, null=True)
+
+    # The field of the action
+    field = models.ForeignKey(ActionField, on_delete=models.CASCADE, null=True)
+
+    # Title of the action
+    title = models.CharField(max_length=500, null=True)
+
+    # Short title of the action
+    short_title = models.CharField(max_length=200, null=True) 
+
+    # The action
+    action = models.TextField()
+
+    def __str__(self):
+        return f"Action for {self.kommune.name} ({self.kommune.slug}) - ID: {self.id} - Source: {self.source.name} - Field: {self.field.name}"

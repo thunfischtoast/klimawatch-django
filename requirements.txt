@@ -4,3 +4,5 @@ gunicorn
 whitenoise
 numpy
 scipy
+pandas
+openpyxl
