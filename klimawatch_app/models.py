@@ -83,10 +83,25 @@ class Action(models.Model):
     title = models.CharField(max_length=500, null=True)
 
     # Short title of the action
-    short_title = models.CharField(max_length=200, null=True) 
+    short_title = models.CharField(max_length=200, null=True)
 
     # The action
     action = models.TextField()
+
+    class ActionStatus(models.TextChoices):
+        UNBEKANNT = "unbekannt"
+        NICHT_BEGONNEN = "nicht begonnen"
+        BEGONNEN = "begonnen"
+        TEILWEISE_UMGESETZT = "teilweise umgesetzt"
+        UMGESETZT = "umgesetzt"
+        VERSCHOBEN = "verschoben"
+
+    # status of the action
+    status = models.CharField(
+        max_length=50,
+        choices=ActionStatus.choices,
+        default=ActionStatus.UNBEKANNT,
+    )
 
     def __str__(self):
         return f"Action for {self.kommune.name} ({self.kommune.slug}) - ID: {self.id} - Source: {self.source.name} - Field: {self.field.name}"

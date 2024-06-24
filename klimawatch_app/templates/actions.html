@@ -1,0 +1,59 @@
+{% load static %}
+
+<!doctype html>
+<html lang=de>
+
+{% include 'head.html' %}
+
+<style>
+    .fields {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .field {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        width: 300px;
+        cursor: pointer;
+    }
+
+    .field:hover {
+        background-color: #f0f0f0;
+    }
+</style>
+
+<body>
+
+    {% include 'header.html' %}
+
+    <main class="main">
+        <div style="height: 92px;"></div>
+        <article class="kommune__wrapper">
+            <h1>Klimaaktionstracker für {{ kommune.name }}</h1>
+
+            <div class="fields">
+                {% for field, actions in actions.items %}
+                <div class="field">
+                    {{field}}
+                    <div class="actions">
+                        <!-- number of actions -->
+                        <p>{{ actions|length }} Aktionen</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </article>
+    </main>
+
+    {% include 'footer.html' %}
+</body>
+
+<script>
+
+</script>
+
+</html>

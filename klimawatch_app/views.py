@@ -7,9 +7,10 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
+from django.forms.models import model_to_dict
 from scipy import interpolate
 
-from .models import EmissionData, Kommune, MarkdownContent
+from .models import EmissionData, Kommune, MarkdownContent, Action
 
 
 def index(request):
@@ -28,6 +29,36 @@ def paris_limits(request):
 def anleitung(request):
     template = loader.get_template("anleitung.html")
     return HttpResponse(template.render(request=request))
+
+
+def actions(request, municipality_slug):
+    template = loader.get_template("actions.html")
+    kommune = Kommune.objects.get(slug=municipality_slug)
+
+    if kommune is None:
+        return HttpResponse("Kommune not found")
+
+    actions = Action.objects.filter(kommune=kommune).all()
+
+    # if no actions are found
+    if actions is None:
+        return HttpResponse("No actions found")
+
+    # create dict that maps fields to actions
+    field_to_actions = {}
+    for action in actions:
+        field = action.field.name
+        if field not in field_to_actions:
+            field_to_actions[field] = []
+        # append action as dict
+        field_to_actions[field].append(model_to_dict(action))
+
+    return HttpResponse(
+        template.render(
+            request=request,
+            context={"kommune": kommune, "actions": field_to_actions},
+        )
+    )
 
 
 def kommune_detail(request, municipality_slug):
