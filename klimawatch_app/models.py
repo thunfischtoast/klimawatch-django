@@ -65,6 +65,9 @@ class ActionField(models.Model):
     # Name of the field
     name = models.CharField(max_length=200)
 
+    # icon of the field
+    icon = models.CharField(max_length=200, default="fa-suitcase")
+
     def __str__(self):
         return f"{self.name} - ID: {self.id}"
 

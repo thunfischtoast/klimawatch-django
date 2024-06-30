@@ -45,18 +45,17 @@ def actions(request, municipality_slug):
         return HttpResponse("No actions found")
 
     # create dict that maps fields to actions
-    field_to_actions = {}
+    fields = list({action.field for action in actions})
+    field_to_actions = {field.name: [] for field in fields}
     for action in actions:
-        field = action.field.name
-        if field not in field_to_actions:
-            field_to_actions[field] = []
+        action_field_name = action.field.name
         # append action as dict
-        field_to_actions[field].append(model_to_dict(action))
+        field_to_actions[action_field_name].append(model_to_dict(action))
 
     return HttpResponse(
         template.render(
             request=request,
-            context={"kommune": kommune, "actions": field_to_actions},
+            context={"kommune": kommune, "actions": field_to_actions, "fields": fields},
         )
     )
 

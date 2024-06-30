@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 
 <!doctype html>
 <html lang=de>
@@ -69,18 +70,18 @@
 
 
             <div class="fields">
-                {% for field, actions in actions.items %}
+                {% for field in fields %}
                 <a class="text-decoration-none">
                     <div class="field">
                         <div class="field-top">
-                            <h4>{{field}}</h4>
+                            <h4>{{field.name}}</h4>
                             <div class="field-icon">
-                                <i class="fa fa-suitcase fa-2x"></i>
+                                <i class="fa {{ field.icon }} fa-2x"></i>
                             </div>
                         </div>
                         <div class="field-actions">
                             <!-- number of actions -->
-                            <p>{{ actions|length }} Aktionen</p>
+                            <p>{{ actions|get_item:field.name|length }} Aktionen</p>
                         </div>
                     </div>
                 </a>
