@@ -11,17 +11,50 @@
         flex-wrap: wrap;
     }
 
+    .text-decoration-none {
+        text-decoration: none !important;
+        border-bottom: none !important;
+        cursor: pointer;
+    }
+
     .field {
         margin: 20px;
-        padding: 20px;
         border: 1px solid #ccc;
-        border-radius: 10px;
         width: 300px;
-        cursor: pointer;
+
+        box-shadow: 0 0 0 var(--shadow-color, var(--shadow-gray));
+        transform: translate(0);
+        transition: box-shadow .15s ease-in-out, transform .15s ease-in-out;
     }
 
     .field:hover {
         background-color: #f0f0f0;
+    }
+
+    .field-top {
+        background-color: #00d300aa;
+        background-size: cover;
+        background-position: center;
+        padding: 10px;
+        margin: 0px;
+        /* child elements horizontal */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .field-icon {
+        background-color: white;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .field-actions {
+        /* center elements */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
     }
 </style>
 
@@ -34,15 +67,23 @@
         <article class="kommune__wrapper">
             <h1>Klimaaktionstracker für {{ kommune.name }}</h1>
 
+
             <div class="fields">
                 {% for field, actions in actions.items %}
-                <div class="field">
-                    {{field}}
-                    <div class="actions">
-                        <!-- number of actions -->
-                        <p>{{ actions|length }} Aktionen</p>
+                <a class="text-decoration-none">
+                    <div class="field">
+                        <div class="field-top">
+                            <h4>{{field}}</h4>
+                            <div class="field-icon">
+                                <i class="fa fa-suitcase fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="field-actions">
+                            <!-- number of actions -->
+                            <p>{{ actions|length }} Aktionen</p>
+                        </div>
                     </div>
-                </div>
+                </a>
                 {% endfor %}
             </div>
 
