@@ -57,6 +57,38 @@
         align-items: center;
         padding: 10px;
     }
+
+    .progress-indicator {
+        width: 150px;
+        height: 15px;
+        background-color: gray;
+        border-radius: 5px;
+        margin: 10px;
+        transform: translate(0, -10px);
+    }
+
+    .hovertext:before {
+        content: attr(data-hover);
+        visibility: hidden;
+        opacity: 0;
+        width: 140px;
+        background-color: grey;
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px 0;
+        transition: opacity 0.2s ease-in-out;
+
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 110%;
+    }
+
+    .hovertext:hover:before {
+        opacity: 1;
+        visibility: visible;
+    }
 </style>
 
 <body>
@@ -81,7 +113,9 @@
                         </div>
                         <div class="field-actions">
                             <!-- number of actions -->
-                            <p>{{ actions|get_item:field.name|length }} Aktionen</p>
+                            <p>{{ actions|get_item:field.name|length }} Vorhaben</p>
+                            <div class="progress-indicator hovertext" data-hover="100% Status unbekannt">
+                            </div>
                         </div>
                     </div>
                 </a>
