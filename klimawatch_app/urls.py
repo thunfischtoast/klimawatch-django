@@ -15,6 +15,11 @@ urlpatterns = [
         name="emission_data",
     ),
     path(
+        "action/<slug:municipality_slug>/<int:action_id>/",
+        views.action_detail,
+        name="action_detail",
+    ),
+    path(
         "actions/<slug:municipality_slug>/<int:field_id>/",
         views.field_actions,
         name="field_actions",

@@ -19,7 +19,7 @@
 
             <div class="fields">
                 {% for action in actions %}
-                <a class="text-decoration-none">
+                <a class="text-decoration-none" href="{% url 'action_detail' municipality_slug=kommune.slug action_id=action.id %}">
                     <div class="field">
                         <div class="field-top">
                             <h4>{{action.short_title}}</h4>
@@ -28,7 +28,7 @@
                             <p>{{ action.title }}</p>
                         </div>
                         <div class="field-bottom">
-                            <span href="">-> mehr lesen</span>
+                            <span>-> mehr lesen</span>
                             <span class="action-status action-status--unknown">Status unbekannt</span>
                         </div>
                     </div>

@@ -1,0 +1,68 @@
+{% load static %}
+{% load custom_filters %}
+
+<!doctype html>
+<html lang=de>
+
+{% include 'head.html' %}
+
+<style>
+    .action_detail_body {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        flex-grow: 1;
+    }
+
+    .action_detail_side {
+        min-width: 200px;
+        margin-right: 30px;
+    }
+
+    .action_detail_side_item_title {
+        font-weight: bold;
+    }
+
+    .action_detail_side_item{
+        margin-bottom: 10px;
+    }
+</style>
+
+<body>
+
+    {% include 'header.html' %}
+    <main class="main">
+        <div style="height: 92px;"></div>
+
+        <article class="kommune__wrapper">
+            <a href="{% url 'actions' municipality_slug=kommune.slug %}">Kommune {{kommune.name}}</a> - <a
+                href="{% url 'field_actions' municipality_slug=kommune.slug field_id=field.id%}">Feld {{field.name}}</a>
+            <h2>{{ action.short_title }}</h2>
+
+            <div class="action_detail_body">
+                <div class="action_detail_side">
+                    <div class="action_detail_side_item">
+                        <div class="action_detail_side_item_title">Status</div>
+                        <div class="action_detail_side_item_text">{{ action.status }}</div>
+                    </div>
+                    <div class="action_detail_side_item">
+                        <div class="action_detail_side_item_title">Quelle</div>
+                        <div class="action_detail_side_item_text">{{ action.source.name }}</div>
+                    </div>
+                </div>
+                <div class="action_detail_text">
+                    <strong> Beschreibung </strong></br>
+                    {{ action.action}}
+                </div>
+            </div>
+        </article>
+    </main>
+
+    {% include 'footer.html' %}
+</body>
+
+<script>
+
+</script>
+
+</html>

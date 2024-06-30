@@ -87,6 +87,20 @@ def field_actions(request, municipality_slug, field_id):
     )
 
 
+def action_detail(request, municipality_slug, action_id):
+    template = loader.get_template("action_detail.html")
+    kommune = Kommune.objects.get(slug=municipality_slug)
+    action = Action.objects.get(id=action_id)
+    field = action.field
+
+    return HttpResponse(
+        template.render(
+            request=request,
+            context={"kommune": kommune, "action": action, "field": field},
+        )
+    )
+
+
 def kommune_detail(request, municipality_slug):
     md = markdown.Markdown(extensions=["fenced_code"])
 
