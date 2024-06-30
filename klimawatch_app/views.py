@@ -10,7 +10,7 @@ import numpy as np
 from django.forms.models import model_to_dict
 from scipy import interpolate
 
-from .models import EmissionData, Kommune, MarkdownContent, Action
+from .models import ActionField, EmissionData, Kommune, MarkdownContent, Action
 
 
 def index(request):
@@ -56,6 +56,33 @@ def actions(request, municipality_slug):
         template.render(
             request=request,
             context={"kommune": kommune, "actions": field_to_actions, "fields": fields},
+        )
+    )
+
+
+def field_actions(request, municipality_slug, field_id):
+    # get the actions for a specific field and municipality
+    template = loader.get_template("actions_field.html")
+
+    kommune = Kommune.objects.get(slug=municipality_slug)
+
+    if kommune is None:
+        return HttpResponse("Kommune not found")
+
+    field = ActionField.objects.get(id=field_id)
+
+    if field is None:
+        return HttpResponse("Field not found")
+
+    actions = Action.objects.filter(kommune=kommune, field=field).all()
+
+    if actions is None:
+        return HttpResponse("No actions found")
+
+    return HttpResponse(
+        template.render(
+            request=request,
+            context={"kommune": kommune, "actions": actions, "field": field},
         )
     )
 

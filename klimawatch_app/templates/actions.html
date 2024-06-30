@@ -6,91 +6,6 @@
 
 {% include 'head.html' %}
 
-<style>
-    .fields {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .text-decoration-none {
-        text-decoration: none !important;
-        border-bottom: none !important;
-        cursor: pointer;
-    }
-
-    .field {
-        margin: 20px;
-        border: 1px solid #ccc;
-        width: 300px;
-
-        box-shadow: 0 0 0 var(--shadow-color, var(--shadow-gray));
-        transform: translate(0);
-        transition: box-shadow .15s ease-in-out, transform .15s ease-in-out;
-    }
-
-    .field:hover {
-        background-color: #f0f0f0;
-    }
-
-    .field-top {
-        background-color: #00d300aa;
-        background-size: cover;
-        background-position: center;
-        padding: 10px;
-        margin: 0px;
-        /* child elements horizontal */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .field-icon {
-        background-color: white;
-        margin: 10px;
-        padding: 10px;
-    }
-
-    .field-actions {
-        /* center elements */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-    }
-
-    .progress-indicator {
-        width: 150px;
-        height: 15px;
-        background-color: gray;
-        border-radius: 5px;
-        margin: 10px;
-        transform: translate(0, -10px);
-    }
-
-    .hovertext:before {
-        content: attr(data-hover);
-        visibility: hidden;
-        opacity: 0;
-        width: 140px;
-        background-color: grey;
-        color: #fff;
-        text-align: center;
-        border-radius: 5px;
-        padding: 5px 0;
-        transition: opacity 0.2s ease-in-out;
-
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        top: 110%;
-    }
-
-    .hovertext:hover:before {
-        opacity: 1;
-        visibility: visible;
-    }
-</style>
-
 <body>
 
     {% include 'header.html' %}
@@ -100,10 +15,11 @@
         <article class="kommune__wrapper">
             <h1>Klimaaktionstracker für {{ kommune.name }}</h1>
 
+            <p>intro text</p>
 
             <div class="fields">
                 {% for field in fields %}
-                <a class="text-decoration-none">
+                <a class="text-decoration-none" href={% url 'field_actions' municipality_slug=kommune.slug field_id=field.id %}>
                     <div class="field">
                         <div class="field-top">
                             <h4>{{field.name}}</h4>
@@ -127,9 +43,5 @@
 
     {% include 'footer.html' %}
 </body>
-
-<script>
-
-</script>
 
 </html>

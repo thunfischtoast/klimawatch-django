@@ -1,0 +1,50 @@
+{% load static %}
+{% load custom_filters %}
+
+<!doctype html>
+<html lang=de>
+
+{% include 'head.html' %}
+
+<body>
+
+    {% include 'header.html' %}
+
+    <main class="main">
+        <div style="height: 92px;"></div>
+        <article class="kommune__wrapper">
+            <h2>Klimaaktionstracker für {{ kommune.name }} - Feld {{ field.name }}</h2>
+
+            <p>intro text</p>
+
+            <div class="fields">
+                {% for action in actions %}
+                <a class="text-decoration-none">
+                    <div class="field">
+                        <div class="field-top">
+                            <h4>{{action.short_title}}</h4>
+                        </div>
+                        <div class="field-actions">
+                            <p>{{ action.title }}</p>
+                        </div>
+                        <div class="field-bottom">
+                            <span href="">-> mehr lesen</span>
+                            <span class="action-status action-status--unknown">Status unbekannt</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+
+        </article>
+    </main>
+
+    {% include 'footer.html' %}
+</body>
+
+<script>
+
+</script>
+
+</html>

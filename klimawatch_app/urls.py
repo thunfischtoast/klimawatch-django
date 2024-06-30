@@ -14,6 +14,11 @@ urlpatterns = [
         views.emission_data,
         name="emission_data",
     ),
+    path(
+        "actions/<slug:municipality_slug>/<int:field_id>/",
+        views.field_actions,
+        name="field_actions",
+    ),
     path("actions/<slug:municipality_slug>/", views.actions, name="actions"),
     path("", views.index, name="index"),
 ]
