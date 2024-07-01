@@ -23,7 +23,7 @@
         font-weight: bold;
     }
 
-    .action_detail_side_item{
+    .action_detail_side_item {
         margin-bottom: 10px;
     }
 </style>
@@ -54,6 +54,39 @@
                     <strong> Beschreibung </strong></br>
                     {{ action.action}}
                 </div>
+            </div>
+
+            <hr>
+            <h3>Entwicklungen</h3>
+
+            <div class="action_progress_body">
+                {% for progress_item in progress %}
+                <div class="action_progress_item box-card border-green">
+                    <div class="action_progress_top">
+                        <h4 class="action_progress_item_title">{{ progress_item.title }}</h4>
+                        <span>
+                            <span class="action_progress_item_date">{{ progress_item.date|date:"d.m.Y" }}</span>
+                            <span class="action_progress_item_author">
+                                {% if progress_item.user %}
+                                Reportet durch: {{ progress_item.user }}
+                                {% else %}
+                                Reportet durch: Anonym
+                                {% endif %}
+                            </span>
+                        </span>
+                    </div>
+                    <div class="action_progress_bot">
+                        <div class="action_progress_item_text">{{ progress_item.progress }}</div>
+                        {% if progress_item.source_is_link %}
+                        <a class="action_progress_item_source" href="{{ progress_item.source }}" target="_blank">-> Mehr
+                            lesen
+                            auf {{progress_item.source}}</a>
+                        {% else %}
+                        <div class="action_progress_item_source">Quelle: {{ progress_item.source }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </article>
     </main>

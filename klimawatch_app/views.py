@@ -10,7 +10,14 @@ import numpy as np
 from django.forms.models import model_to_dict
 from scipy import interpolate
 
-from .models import ActionField, EmissionData, Kommune, MarkdownContent, Action
+from .models import (
+    ActionField,
+    ActionProgress,
+    EmissionData,
+    Kommune,
+    MarkdownContent,
+    Action,
+)
 
 
 def index(request):
@@ -93,10 +100,17 @@ def action_detail(request, municipality_slug, action_id):
     action = Action.objects.get(id=action_id)
     field = action.field
 
+    progress = ActionProgress.objects.filter(action=action).all()
+
     return HttpResponse(
         template.render(
             request=request,
-            context={"kommune": kommune, "action": action, "field": field},
+            context={
+                "kommune": kommune,
+                "action": action,
+                "field": field,
+                "progress": progress,
+            },
         )
     )
 

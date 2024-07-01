@@ -72,6 +72,15 @@ class ActionField(models.Model):
         return f"{self.name} - ID: {self.id}"
 
 
+class ActionStatus(models.TextChoices):
+    UNBEKANNT = "unbekannt"
+    NICHT_BEGONNEN = "nicht begonnen"
+    BEGONNEN = "begonnen"
+    TEILWEISE_UMGESETZT = "teilweise umgesetzt"
+    UMGESETZT = "umgesetzt"
+    VERSCHOBEN = "verschoben"
+
+
 class Action(models.Model):
     # The municipality this data is about
     kommune = models.ForeignKey(Kommune, on_delete=models.CASCADE)
@@ -91,14 +100,6 @@ class Action(models.Model):
     # The action
     action = models.TextField()
 
-    class ActionStatus(models.TextChoices):
-        UNBEKANNT = "unbekannt"
-        NICHT_BEGONNEN = "nicht begonnen"
-        BEGONNEN = "begonnen"
-        TEILWEISE_UMGESETZT = "teilweise umgesetzt"
-        UMGESETZT = "umgesetzt"
-        VERSCHOBEN = "verschoben"
-
     # status of the action
     status = models.CharField(
         max_length=50,
@@ -107,4 +108,42 @@ class Action(models.Model):
     )
 
     def __str__(self):
-        return f"Action for {self.kommune.name} ({self.kommune.slug}) - ID: {self.id} - Source: {self.source.name} - Field: {self.field.name}"
+        return f"Action for {self.kommune.name} ({self.kommune.slug}) - ID: {self.id} - Title: {self.short_title} - Field: {self.field.name}"
+
+
+class ActionProgress(models.Model):
+    # The action this progress is about
+    action = models.ForeignKey(Action, on_delete=models.CASCADE)
+
+    # The progress
+    progress = models.TextField()
+
+    # the title
+    title = models.CharField(max_length=500, null=True, blank=True)
+
+    # the old status of the action
+    old_status = models.CharField(
+        max_length=50,
+        choices=ActionStatus.choices,
+    )
+
+    # the new status of the action
+    new_status = models.CharField(
+        max_length=50,
+        choices=ActionStatus.choices,
+    )
+
+    # The date of the progress
+    date = models.DateField()
+
+    # the reporting user
+    user = models.CharField(max_length=200, null=True, blank=True)
+
+    # the source of the progress
+    source = models.CharField(max_length=1000, null=True, blank=True)
+
+    # whether the source is a link
+    source_is_link = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Progress for action {self.action.title} - ID: {self.id} - Date: {self.date}"

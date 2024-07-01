@@ -1268,7 +1268,7 @@ input:hover ~ label {
   display: inline-block;
   padding: 0px 8px;
   font-size: smaller;
-  line-height: 2.0;
+  line-height: 2;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
@@ -1286,4 +1286,48 @@ input:hover ~ label {
   justify-content: space-between;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.action_progress_body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.box-card {
+  display: flex;
+  width: 500px;
+  flex-direction: column;
+  position: relative;
+  margin: 10px;
+}
+
+.border-green {
+  border: 3px solid;
+  border-color:  #00d300aa;
+}
+
+.action_progress_top {
+  background-color: #00d300aa;
+  padding: 5px;
+}
+
+.action_progress_bot {
+  padding: 5px;
+}
+
+
+.action_progress_item_title {
+  font-weight: 600;
+}
+
+.action_progress_item_source {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.action_progress_item_author{
+  float: right;
 }
