@@ -858,7 +858,7 @@ input:hover ~ label {
 
 @media only screen and (min-width: 400px) {
   .kommune__wrapper {
-    max-width: 100ch;
+    max-width: 120ch;
     margin: auto;
   }
 }
