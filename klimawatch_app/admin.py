@@ -9,6 +9,7 @@ from .models import (
     ActionField,
     Action,
     ActionProgress,
+    KommuneActionField,
 )
 
 admin.site.register(Kommune)
@@ -18,3 +19,4 @@ admin.site.register(ActionSource)
 admin.site.register(ActionField)
 admin.site.register(Action)
 admin.site.register(ActionProgress)
+admin.site.register(KommuneActionField)

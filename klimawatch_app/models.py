@@ -72,6 +72,20 @@ class ActionField(models.Model):
         return f"{self.name} - ID: {self.id}"
 
 
+class KommuneActionField(models.Model):
+    # The municipality this data is about
+    kommune = models.ForeignKey(Kommune, on_delete=models.CASCADE)
+
+    # The field
+    field = models.ForeignKey(ActionField, on_delete=models.CASCADE)
+
+    # a description
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Action field for {self.kommune.name} ({self.kommune.slug}) - ID: {self.id} - Field: {self.field.name}"
+
+
 class ActionStatus(models.TextChoices):
     UNBEKANNT = "unbekannt"
     NICHT_BEGONNEN = "nicht begonnen"

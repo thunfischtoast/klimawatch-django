@@ -2,21 +2,22 @@ import datetime
 import json
 
 import markdown
+import numpy as np
 from django.core import serializers
+from django.forms.models import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
-import numpy as np
-from django.forms.models import model_to_dict
 from scipy import interpolate
 
 from .models import (
+    Action,
     ActionField,
     ActionProgress,
     EmissionData,
     Kommune,
+    KommuneActionField,
     MarkdownContent,
-    Action,
 )
 
 
@@ -81,6 +82,11 @@ def field_actions(request, municipality_slug, field_id):
     if field is None:
         return HttpResponse("Field not found")
 
+    kommuneActionField = KommuneActionField.objects.get(kommune=kommune, field=field)
+
+    if kommuneActionField is None:
+        return HttpResponse("No actionfield for this kommune found")
+
     actions = Action.objects.filter(kommune=kommune, field=field).all()
 
     if actions is None:
@@ -89,7 +95,12 @@ def field_actions(request, municipality_slug, field_id):
     return HttpResponse(
         template.render(
             request=request,
-            context={"kommune": kommune, "actions": actions, "field": field},
+            context={
+                "kommune": kommune,
+                "actions": actions,
+                "field": field,
+                "kommuneActionField": kommuneActionField,
+            },
         )
     )
 

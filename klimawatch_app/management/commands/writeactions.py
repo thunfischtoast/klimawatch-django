@@ -1,7 +1,15 @@
-from django.core.management.base import BaseCommand, CommandError
-from klimawatch_app.models import Kommune, ActionSource, ActionField, Action
 import json
 from pathlib import Path
+
+from django.core.management.base import BaseCommand, CommandError
+
+from klimawatch_app.models import (
+    Action,
+    ActionField,
+    ActionSource,
+    Kommune,
+    KommuneActionField,
+)
 
 
 class Command(BaseCommand):
@@ -17,11 +25,16 @@ class Command(BaseCommand):
             kommune = Kommune.objects.get(slug=site)
 
             for field, actions in data.items():
-
                 actionfield = ActionField.objects.get_or_create(name=field)[0]
 
+                kommuneActionField = KommuneActionField.objects.get_or_create(
+                    kommune=kommune, field=actionfield
+                )[0]
+
                 for action in actions:
-                    source = ActionSource.objects.get_or_create(name=action.get("Source"))[0]
+                    source = ActionSource.objects.get_or_create(
+                        name=action.get("Source")
+                    )[0]
                     Action.objects.get_or_create(
                         kommune=kommune,
                         source=source,

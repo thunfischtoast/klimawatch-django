@@ -6,6 +6,12 @@
 
 {% include 'head.html' %}
 
+<style>
+    .read-more {
+        cursor: pointer;
+    }
+</style>
+
 <body>
 
     {% include 'header.html' %}
@@ -15,11 +21,16 @@
         <article class="kommune__wrapper">
             <h2>Klimavorhabentracker für {{ kommune.name }} - Feld {{ field.name }}</h2>
 
-            <p>intro text</p>
+            <div class="expandable-text">
+                <span class="short-text">{{kommuneActionField.description|truncatechars:400}} </span>
+                <span class="long-text" style="display: none;">{{kommuneActionField.description|linebreaks}}</span>
+                <a class="read-more">Mehr lesen</a>
+            </div>
 
             <div class="fields">
                 {% for action in actions %}
-                <a class="text-decoration-none" href="{% url 'action_detail' municipality_slug=kommune.slug action_id=action.id %}">
+                <a class="text-decoration-none"
+                    href="{% url 'action_detail' municipality_slug=kommune.slug action_id=action.id %}">
                     <div class="field">
                         <div class="field-top">
                             <h4>{{action.short_title}}</h4>
@@ -44,7 +55,21 @@
 </body>
 
 <script>
+    document.querySelector(".read-more").addEventListener("click", function () {
+        var longText = document.querySelector(".long-text");
+        var shortText = document.querySelector(".short-text");
+        var btnText = document.querySelector(".read-more");
 
+        if (longText.style.display == "none") {
+            longText.style.display = "inline";
+            btnText.innerHTML = "Weniger lesen";
+            shortText.style.display = "none";
+        } else {
+            longText.style.display = "none";
+            btnText.innerHTML = "Mehr lesen";
+            shortText.style.display = "inline";
+        }
+    });
 </script>
 
 </html>

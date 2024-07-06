@@ -10,6 +10,9 @@ if __name__ == "__main__":
 
         df = pd.read_excel(path)
 
+        for col in df.columns:
+            df[col] = df[col].replace("\s\s+", " ", regex=True)
+
         output = {}
 
         action_count = len(df)
